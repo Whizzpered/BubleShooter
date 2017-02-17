@@ -1,4 +1,7 @@
 buildscript {
+    ext.kotlin_version = "1.0.6"
+    ext.kotlinVersion = "1.0.6"
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -8,6 +11,7 @@ buildscript {
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.1.0'
     }
 }
@@ -100,11 +104,19 @@ project(":html") {
 
 project(":core") {
     apply plugin: "java"
+    apply plugin: "kotlin"
 
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    }
+
+    sourceSets {
+        main.kotlin.srcDirs += 'src'
+        main.java.srcDirs += 'src'
     }
 }
 
