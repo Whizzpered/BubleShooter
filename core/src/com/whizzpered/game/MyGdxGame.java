@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.whizzpered.game.stages.Game;
-import com.whizzpered.game.stages.Dick;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -40,10 +39,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		Dick dick = new Dick();
-		batch.end();
+		current.act();
+		current.draw();
 	}
 	
 	@Override
