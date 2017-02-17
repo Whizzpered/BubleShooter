@@ -15,6 +15,17 @@ public class Hero extends Creature {
     }
 
     @Override
+    public void act(float delta) {
+        if (velocity <= max_velocity)
+            velocity += acceleration;
+        else velocity = max_velocity;
+        if(velocity > 0) velocity-=.05f;
+        if(velocity < 0) velocity+=.05f;
+        setX(getX() + velocity * (float) Math.cos(angle));
+        setY(getY() + velocity * (float) Math.sin(angle));
+    }
+
+    @Override
     public void draw(Batch b, float parentalpha) {
         b.end();
         ShapeRenderer sp = getStage().sr;
