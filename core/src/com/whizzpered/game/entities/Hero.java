@@ -20,6 +20,7 @@ public class Hero extends Creature {
             velocity += acceleration;
         else velocity = max_velocity;
         if(velocity > 0) velocity-=.05f;
+        if(velocity < 0) velocity+=.05f;
         setX(getX() + velocity * (float) Math.cos(angle));
         setY(getY() + velocity * (float) Math.sin(angle));
     }
