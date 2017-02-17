@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.whizzpered.game.stages.Dick;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -24,6 +25,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, 0, 0);
+
+		Dick dick = new Dick();
+
 		batch.end();
 	}
 	
