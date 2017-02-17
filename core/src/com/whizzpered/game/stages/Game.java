@@ -59,6 +59,12 @@ public class Game extends Stage {
                 }
                 return false;
             }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                hero.acceleration = 0f;
+                return false;
+            }
         };
         Gdx.input.setInputProcessor(tmp);
     }
