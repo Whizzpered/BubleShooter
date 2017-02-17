@@ -6,17 +6,34 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.whizzpered.game.stages.Game;
 import com.whizzpered.game.stages.Dick;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	Stage current;
-	
+
+	public static StretchViewport vp = new StretchViewport(480, 800);
+	public static MyGdxGame MYGDXGAME;
+	public Stage current;
+	public Game game;
+
+	@Override
+	public void resize(int width, int height) {
+		vp.update(width, height);
+	}
+
+	public void setCurrent(Stage s) {
+		current = s;
+		Gdx.input.setInputProcessor(current);
+	}
+
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		MYGDXGAME = this;
+		game = new Game();
+		current = game;
+		game.initialize();
 	}
 
 	@Override
@@ -25,15 +42,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, 0, 0);
-
 		Dick dick = new Dick();
-
 		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
+		game.dispose();
+		super.dispose();
 	}
 }
