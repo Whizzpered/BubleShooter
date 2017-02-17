@@ -1,5 +1,7 @@
 package com.whizzpered.game.entities;
 
+import static java.lang.Math.*;
+
 /**
  * Created by Whizzpered on 17.02.2017.
  */
@@ -11,7 +13,7 @@ public class Creature extends Entity {
 
     @Override
     public void act(float delta) {
-        if (velocity <= max_velocity)
+        if (abs(velocity) <= max_velocity)
             velocity += acceleration;
         else velocity = max_velocity;
         setX(getX() + velocity * (float) Math.cos(angle));
