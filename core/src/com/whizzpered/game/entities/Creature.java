@@ -13,9 +13,8 @@ public class Creature extends Entity {
 
     @Override
     public void act(float delta) {
-        if (abs(velocity) <= max_velocity)
+        if (abs(velocity + acceleration) <= max_velocity)
             velocity += acceleration;
-        else velocity = max_velocity;
         setX(getX() + velocity * (float) Math.cos(angle));
         setY(getY() + velocity * (float) Math.sin(angle));
     }
