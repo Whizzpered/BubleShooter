@@ -43,9 +43,39 @@ public class Game extends Stage {
 		// hero.getY()- MyGdxGame.vp.getWorldHeight()/2);
 	}
 
+<<<<<<< HEAD
 	public void initListener() {
 		input = new Input();
 	}
+=======
+    public void initListener(){
+        tmp = new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.W) {
+                    hero.acceleration = .1f;
+                }
+                if (keycode == Input.Keys.A) {
+                    hero.angle-=0.5f;
+                }
+                if (keycode == Input.Keys.S) {
+                    hero.acceleration = -.1f;
+                }
+                if (keycode == Input.Keys.D) {
+                    hero.angle += 0.5f;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                hero.acceleration = 0f;
+                return false;
+            }
+        };
+        Gdx.input.setInputProcessor(tmp);
+    }
+>>>>>>> master
 
 	@Override
 	public void act(float delta) {
