@@ -9,7 +9,7 @@ import com.whizzpered.game.stages.Game;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	public static StretchViewport vp = new StretchViewport(480, 800);
+	public static StretchViewport vp = new StretchViewport(800, 480);
 	public static MyGdxGame MYGDXGAME;
 	public Stage current;
 	public Game game;
