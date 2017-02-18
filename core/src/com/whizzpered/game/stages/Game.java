@@ -1,6 +1,7 @@
 package com.whizzpered.game.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,6 +11,9 @@ import com.whizzpered.game.MyGdxGame;
 import com.whizzpered.game.entities.Hero;
 
 import static java.lang.Math.*;
+
+import java.util.Random;
+
 import static com.badlogic.gdx.math.MathUtils.*;
 
 /**
@@ -23,11 +27,26 @@ public class Game extends Stage {
 	public OrthographicCamera cam;
 	public final float CAMERA_MOVEMENT_SHIFT = 35;
 
+	private Tile[][] tiles = new Tile[64][64];
+	private Tile defaultTile = new Tile(new Color(1, 1, 1, 1));
+
 	// Можно удалить
 	public ShapeRenderer sr;
 
 	public Game() {
+		Tile t = new Tile(new Color(0, 1, .5f, 1));
+		Random r = new Random();
+		for(int x = 0; x < tiles.length; x++)
+			for(int y = 0; y < tiles[x].length; y++)
+				if (r.nextBoolean())
+					tiles[x][y] = t;
+	}
 
+	public Tile getTile(int x, int y) {
+		if (x >= 0 && x < tiles.length && y >= 0 && y < tiles[x].length && tiles[x][y] != null)
+			return tiles[x][y];
+		else
+			return defaultTile;
 	}
 
 	public void initialize() {
@@ -46,7 +65,7 @@ public class Game extends Stage {
 	public void initListener() {
 		input = new Input();
 	}
-    
+
 	@Override
 	public void act(float delta) {
 		super.act(delta);
@@ -76,6 +95,19 @@ public class Game extends Stage {
 		cam.position.y = hero.getY() + sin(hero.angle) * hero.velocity * CAMERA_MOVEMENT_SHIFT;
 		cam.update();
 		b.setProjectionMatrix(cam.combined);
+		/** Этот говнокод временный **/
+		sr.begin();
+		for (int x = (int) ((-(Gdx.graphics.getWidth() / 2.0) + (cam.position.x)) / defaultTile.getSize());
+				x <= ((Gdx.graphics.getWidth() / 2.0) + (cam.position.x)) / defaultTile.getSize() + 2;
+				x++
+				)
+			for (int y = (int) ((-(Gdx.graphics.getHeight() / 2.0) + (cam.position.y)) / defaultTile.getSize());
+					y <= ((Gdx.graphics.getHeight() / 2.0) + (cam.position.y)) / defaultTile.getSize() + 2;
+					y++
+					)
+				getTile(x, y).draw(x, y, this);
+		/** Именъно такъ **/
+		sr.end();
 		hero.draw(b, 1f);
 		b.end();
 	}
