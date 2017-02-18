@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.whizzpered.game.MyGdxGame;
-import com.whizzpered.game.entities.Hero;
+import com.whizzpered.game.entities.creatures.Hero;
 
 import static java.lang.Math.*;
 
@@ -27,14 +26,14 @@ public class Game extends Stage {
 	public OrthographicCamera cam;
 	public final float CAMERA_MOVEMENT_SHIFT = 35;
 
-	private Tile[][] tiles = new Tile[64][64];
-	private Tile defaultTile = new Tile(new Color(1, 1, 1, 1));
+	private com.whizzpered.game.terrain.Tile[][] tiles = new com.whizzpered.game.terrain.Tile[64][64];
+	private com.whizzpered.game.terrain.Tile defaultTile = new com.whizzpered.game.terrain.Tile(new Color(1, 1, 1, 1));
 
 	// Можно удалить
 	public ShapeRenderer sr;
 
 	public Game() {
-		Tile t = new Tile(new Color(0, 1, .5f, 1));
+		com.whizzpered.game.terrain.Tile t = new com.whizzpered.game.terrain.Tile(new Color(0, 1, .5f, 1));
 		Random r = new Random();
 		for(int x = 0; x < tiles.length; x++)
 			for(int y = 0; y < tiles[x].length; y++)
@@ -42,7 +41,7 @@ public class Game extends Stage {
 					tiles[x][y] = t;
 	}
 
-	public Tile getTile(int x, int y) {
+	public com.whizzpered.game.terrain.Tile getTile(int x, int y) {
 		if (x >= 0 && x < tiles.length && y >= 0 && y < tiles[x].length && tiles[x][y] != null)
 			return tiles[x][y];
 		else
