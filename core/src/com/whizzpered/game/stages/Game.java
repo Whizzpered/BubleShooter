@@ -36,14 +36,18 @@ public class Game extends Stage {
 	public Game() {
 		Tile t = new Tile(new Color(0, 1, .5f, 1));
 		Random r = new Random();
-		for(int x = 0; x < tiles.length; x++)
-			for(int y = 0; y < tiles[x].length; y++)
+		for (int x = 0; x < tiles.length; x++)
+			for (int y = 0; y < tiles[x].length; y++)
 				if (r.nextBoolean())
 					tiles[x][y] = t;
 	}
 
 	public Tile getTile(int x, int y) {
-		if (x >= 0 && x < tiles.length && y >= 0 && y < tiles[x].length && tiles[x][y] != null)
+		if (x < 0 || x >= tiles.length)
+			x -= (x / tiles.length - (Integer.compare(x, 0) == -1 ? 1 : 0)) * tiles.length;
+		if (y < 0 || y >= tiles[x].length)
+			y -= (y / tiles[x].length - (Integer.compare(y, 0) == -1 ? 1 : 0)) * tiles[x].length;
+		if (tiles[x][y] != null)
 			return tiles[x][y];
 		else
 			return defaultTile;
@@ -96,15 +100,13 @@ public class Game extends Stage {
 		cam.update();
 		b.setProjectionMatrix(cam.combined);
 		/** Этот говнокод временный **/
-		sr.begin();
-		for (int x = (int) ((-(Gdx.graphics.getWidth() / 2.0) + (cam.position.x)) / defaultTile.getSize());
-				x <= ((Gdx.graphics.getWidth() / 2.0) + (cam.position.x)) / defaultTile.getSize() + 2;
-				x++
-				)
-			for (int y = (int) ((-(Gdx.graphics.getHeight() / 2.0) + (cam.position.y)) / defaultTile.getSize());
-					y <= ((Gdx.graphics.getHeight() / 2.0) + (cam.position.y)) / defaultTile.getSize() + 2;
-					y++
-					)
+		sr.begin(ShapeRenderer.ShapeType.Filled);
+		for (int x = (int) ((-(Gdx.graphics.getWidth() / 2.0) + (cam.position.x))
+				/ defaultTile.getSize()) - 2; x <= ((Gdx.graphics.getWidth() / 2.0) + (cam.position.x))
+						/ defaultTile.getSize() + 2; x++)
+			for (int y = (int) ((-(Gdx.graphics.getHeight() / 2.0) + (cam.position.y))
+					/ defaultTile.getSize()) - 2; y <= ((Gdx.graphics.getHeight() / 2.0) + (cam.position.y))
+							/ defaultTile.getSize() + 2; y++)
 				getTile(x, y).draw(x, y, this);
 		/** Именъно такъ **/
 		sr.end();
