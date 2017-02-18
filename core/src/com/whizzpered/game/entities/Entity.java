@@ -10,7 +10,7 @@ import static java.lang.Math.abs;
  * Created by Whizzpered on 17.02.2017.
  */
 
-public class Entity extends Actor{
+public class Entity extends Actor {
 
     public float velocity = 0f, max_velocity = 5f, acceleration = 0f, angle = 0f;
 
@@ -34,10 +34,34 @@ public class Entity extends Actor{
 
     public Entity(){
 
-    }
+	}
 
-    public Entity(float x, float y){
-        setX(x);
-        setY(y);
-    }
+	@Override
+	public void setX(float x) {
+		final Game game = getStage();
+		if (game != null) {
+			while(x < game.getWidth())
+				x += game.getWidth();
+			while(x >= game.getWidth())
+				x -= game.getWidth();
+		}
+		super.setX(x);
+	}
+
+	@Override
+	public void setY(float y) {
+		final Game game = getStage();
+		if (game != null) {
+			while(y < game.getHeight())
+				y += game.getHeight();
+			while(y >= game.getHeight())
+				y -= game.getHeight();
+		}
+		super.setY(y);
+	}
+
+	public Entity(float x, float y) {
+		setX(x);
+		setY(y);
+	}
 }
