@@ -43,7 +43,7 @@ class Terrain(val width: Int, val height: Int) {
 				3 -> cy--
 			}
 			cx = correct(cx, width); cy = correct(cy, height)
-			f[cx][cy] = 500;
+			f[cx][cy] = 500
 		}
 
 		for (i in 0..3) {
