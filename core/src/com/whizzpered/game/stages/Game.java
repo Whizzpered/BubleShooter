@@ -16,6 +16,7 @@ import com.whizzpered.game.MyGdxGame;
 import com.whizzpered.game.entities.Entity;
 import com.whizzpered.game.entities.creatures.Enemy;
 import com.whizzpered.game.entities.creatures.Hero;
+import com.whizzpered.game.terrain.Terrain;
 import com.whizzpered.game.terrain.Tile;
 
 import static java.lang.Math.*;
@@ -33,44 +34,22 @@ public class Game extends Stage {
 	public Hero hero;
 	public Enemy enemy;
 	public Input input;
+	public Terrain terrain = new Terrain(64, 64);
 	public OrthographicCamera cam;
 	public final float CAMERA_MOVEMENT_SHIFT = 25;
-
-	private Tile[][] tiles = new Tile[64][64];
-	private Tile defaultTile = new Tile(new Color(1, 1, 1, 1));
 
 	public ShapeRenderer sr;
 
 	public float getWidth() {
-		return tiles.length * defaultTile.getSize();
+		return terrain.getWidth() * terrain.getDefaultTile().getSize();
 	}
 
 	public float getHeight() {
-		return tiles[0].length * defaultTile.getSize();
+		return terrain.getHeight() * terrain.getDefaultTile().getSize();
 	}
 
 	public Game() {
 		com.whizzpered.game.terrain.Tile t = new com.whizzpered.game.terrain.Tile(new Color(0, 1, .5f, 1));
-		Random r = new Random();
-		for (int x = 0; x < tiles.length; x++)
-			for (int y = 0; y < tiles[x].length; y++)
-				if (x % 2 == 0 ^ y % 2 == 0)
-					tiles[x][y] = t;
-	}
-
-	public com.whizzpered.game.terrain.Tile getTile(int x, int y) {
-		while (x < 0)
-			x += tiles.length;
-		while (x >= tiles.length)
-			x -= tiles.length;
-		while (y < 0)
-			y += tiles[x].length;
-		while (y >= tiles[x].length)
-			y -= tiles[x].length;
-		if (tiles[x][y] != null)
-			return tiles[x][y];
-		else
-			return defaultTile;
 	}
 
 	@Override
@@ -159,16 +138,8 @@ public class Game extends Stage {
 		 */
 		b.setProjectionMatrix(cam.combined);
 		/** Этот говнокод временный **/
-		sr.begin();
-		for (int x = (int) ((-(Gdx.graphics.getWidth() / 2.0) + (cam.position.x))
-				/ defaultTile.getSize()); x <= ((Gdx.graphics.getWidth() / 2.0) + (cam.position.x))
-						/ defaultTile.getSize() + 2; x++)
-			for (int y = (int) ((-(Gdx.graphics.getHeight() / 2.0) + (cam.position.y))
-					/ defaultTile.getSize()); y <= ((Gdx.graphics.getHeight() / 2.0) + (cam.position.y))
-							/ defaultTile.getSize() + 2; y++)
-				getTile(x, y).draw(x, y, this);
-		/** Именъно такъ **/
-		sr.end();
+		
+		terrain.draw(this);
 
 		b.end();
 		super.draw();
