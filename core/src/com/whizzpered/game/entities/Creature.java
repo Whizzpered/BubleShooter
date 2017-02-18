@@ -1,5 +1,7 @@
 package com.whizzpered.game.entities;
 
+import com.whizzpered.game.entities.objects.Weapon;
+
 import static java.lang.Math.*;
 
 /**
@@ -9,15 +11,14 @@ import static java.lang.Math.*;
 public class Creature extends Entity {
 
     public float health, damage;
-    public float velocity = 0f, max_velocity = 5f, acceleration = 0f, angle = 0f;
+    protected Weapon weapon;
 
-    @Override
-    public void act(float delta) {
-        if (abs(velocity + acceleration) <= max_velocity)
-            velocity += acceleration;
-        else velocity = max_velocity * Float.compare(velocity, 0);
-        setX(getX() + velocity * (float) Math.cos(angle));
-        setY(getY() + velocity * (float) Math.sin(angle));
+    public boolean hasWeapon() {
+        return weapon != null;
+    }
+
+    public void attack() {
+        if (this.hasWeapon()) weapon.shoot();
     }
 
 }
