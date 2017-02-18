@@ -1,6 +1,7 @@
-package com.whizzpered.game.stages
+package com.whizzpered.game.terrain
 
 import com.badlogic.gdx.graphics.Color;
+import com.whizzpered.game.stages.Game
 
 class Tile(val color: Color) {
 	val size = 64f;

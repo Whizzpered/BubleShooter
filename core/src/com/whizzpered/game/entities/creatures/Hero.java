@@ -1,8 +1,9 @@
-package com.whizzpered.game.entities;
+package com.whizzpered.game.entities.creatures;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.whizzpered.game.entities.Creature;
 
 import static com.badlogic.gdx.math.MathUtils.*;
 

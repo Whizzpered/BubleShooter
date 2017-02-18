@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.whizzpered.game.MyGdxGame;
-import com.whizzpered.game.entities.Hero;
+import com.whizzpered.game.entities.creatures.Hero;
 
 import static java.lang.Math.*;
 
@@ -27,26 +26,38 @@ public class Game extends Stage {
 	public OrthographicCamera cam;
 	public final float CAMERA_MOVEMENT_SHIFT = 35;
 
-	private Tile[][] tiles = new Tile[64][64];
-	private Tile defaultTile = new Tile(new Color(1, 1, 1, 1));
+	private com.whizzpered.game.terrain.Tile[][] tiles = new com.whizzpered.game.terrain.Tile[64][64];
+	private com.whizzpered.game.terrain.Tile defaultTile = new com.whizzpered.game.terrain.Tile(new Color(1, 1, 1, 1));
+
+	public float getWidth() {
+		return tiles.length * defaultTile.getSize();
+	}
+	
+	public float getHeight() {
+		return tiles[0].length * defaultTile.getSize();
+	}
 
 	// Можно удалить
 	public ShapeRenderer sr;
 
 	public Game() {
-		Tile t = new Tile(new Color(0, 1, .5f, 1));
+		com.whizzpered.game.terrain.Tile t = new com.whizzpered.game.terrain.Tile(new Color(0, 1, .5f, 1));
 		Random r = new Random();
 		for (int x = 0; x < tiles.length; x++)
 			for (int y = 0; y < tiles[x].length; y++)
-				if (r.nextBoolean())
+				if (x % 2 == 0 ^ y % 2 == 0)
 					tiles[x][y] = t;
 	}
 
-	public Tile getTile(int x, int y) {
-		if (x < 0 || x >= tiles.length)
-			x -= (x / tiles.length - (Integer.compare(x, 0) == -1 ? 1 : 0)) * tiles.length;
-		if (y < 0 || y >= tiles[x].length)
-			y -= (y / tiles[x].length - (Integer.compare(y, 0) == -1 ? 1 : 0)) * tiles[x].length;
+	public com.whizzpered.game.terrain.Tile getTile(int x, int y) {
+		while (x < 0)
+			x += tiles.length;
+		while (x >= tiles.length)
+			x -= tiles.length;
+		while (y < 0)
+			y += tiles[x].length;
+		while (y >= tiles[x].length)
+			y -= tiles[x].length;
 		if (tiles[x][y] != null)
 			return tiles[x][y];
 		else
@@ -86,7 +97,6 @@ public class Game extends Stage {
 			hero.angle -= 5 * delta;
 		if (input.getKeyboard().isKeyDown(Key.D, Key.RIGHT))
 			hero.angle += 5 * delta;
-		hero.act(delta);
 	}
 
 	@Override
@@ -101,12 +111,12 @@ public class Game extends Stage {
 		b.setProjectionMatrix(cam.combined);
 		/** Этот говнокод временный **/
 		sr.begin(ShapeRenderer.ShapeType.Filled);
-		for (int x = (int) ((-(Gdx.graphics.getWidth() / 2.0) + (cam.position.x))
-				/ defaultTile.getSize()) - 2; x <= ((Gdx.graphics.getWidth() / 2.0) + (cam.position.x))
-						/ defaultTile.getSize() + 2; x++)
-			for (int y = (int) ((-(Gdx.graphics.getHeight() / 2.0) + (cam.position.y))
-					/ defaultTile.getSize()) - 2; y <= ((Gdx.graphics.getHeight() / 2.0) + (cam.position.y))
-							/ defaultTile.getSize() + 2; y++)
+		System.out.println(
+				(int) (cam.position.x / defaultTile.getSize()) + ":" + (int) (cam.position.y / defaultTile.getSize()));
+		for (int x = (int) ((-(Gdx.graphics.getWidth() / 2.0) + (cam.position.x)) / defaultTile.getSize())
+				- 2; x <= ((Gdx.graphics.getWidth() / 2.0) + (cam.position.x)) / defaultTile.getSize() + 2; x++)
+			for (int y = (int) ((-(Gdx.graphics.getHeight() / 2.0) + (cam.position.y)) / defaultTile.getSize())
+					- 2; y <= ((Gdx.graphics.getHeight() / 2.0) + (cam.position.y)) / defaultTile.getSize() + 2; y++)
 				getTile(x, y).draw(x, y, this);
 		/** Именъно такъ **/
 		sr.end();

@@ -8,19 +8,43 @@ import com.whizzpered.game.stages.Game;
  * Created by Whizzpered on 17.02.2017.
  */
 
-public class Entity extends Actor{
+public class Entity extends Actor {
 
-    @Override
-    public Game getStage () {
-        return (Game)(super.getStage());
-    }
+	@Override
+	public Game getStage() {
+		return (Game) (super.getStage());
+	}
 
-    public Entity(){
+	public Entity() {
 
-    }
+	}
 
-    public Entity(float x, float y){
-        setX(x);
-        setY(y);
-    }
+	@Override
+	public void setX(float x) {
+		final Game game = getStage();
+		if (game != null) {
+			while(x < game.getWidth())
+				x += game.getWidth();
+			while(x >= game.getWidth())
+				x -= game.getWidth();
+		}
+		super.setX(x);
+	}
+
+	@Override
+	public void setY(float y) {
+		final Game game = getStage();
+		if (game != null) {
+			while(y < game.getHeight())
+				y += game.getHeight();
+			while(y >= game.getHeight())
+				y -= game.getHeight();
+		}
+		super.setY(y);
+	}
+
+	public Entity(float x, float y) {
+		setX(x);
+		setY(y);
+	}
 }
