@@ -7,4 +7,9 @@ public class Object extends Entity {
 
     public float lifeTime = 3f;
 
+    public void die(){
+        getStage().getActors().removeValue(this, false);
+        this.clear();
+    }
+
 }

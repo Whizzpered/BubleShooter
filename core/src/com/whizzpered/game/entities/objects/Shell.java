@@ -4,7 +4,9 @@ package com.whizzpered.game.entities.objects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.whizzpered.game.entities.Entity;
+import com.whizzpered.game.entities.creatures.Enemy;
 
 import static java.lang.Math.abs;
 
@@ -15,12 +17,12 @@ public class Shell extends com.whizzpered.game.entities.Object {
 
     Entity owner;
 
-    public Shell(Entity owner){
+    public Shell(Entity owner) {
         this.owner = owner;
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         max_velocity = 10f;
         setX(owner.getX());
         setY(owner.getY());
@@ -32,9 +34,19 @@ public class Shell extends com.whizzpered.game.entities.Object {
     public void act(float delta) {
         super.act(delta);
         lifeTime -= delta;
-        if (lifeTime <= 0) {
-            getStage().getActors().removeValue(this, false);
-            this.clear();
+        if (lifeTime <= 0)
+            die();
+
+        for (Actor a : getStage().getActors()) {
+            if (a instanceof Enemy) {
+                Enemy en = (Enemy) a;
+                float dist = (float) Math.sqrt(Math.pow(getX() - en.getX(), 2) +
+                        Math.pow(getY() - en.getY(), 2));
+                if (dist <= en.getWidth() / 2) {
+                    en.hit();
+                    die();
+                }
+            }
         }
     }
 

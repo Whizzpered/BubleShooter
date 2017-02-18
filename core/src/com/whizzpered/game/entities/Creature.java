@@ -1,5 +1,6 @@
 package com.whizzpered.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.whizzpered.game.entities.objects.Weapon;
 
 import static java.lang.Math.*;
@@ -15,6 +16,10 @@ public class Creature extends Entity {
 
     public boolean hasWeapon() {
         return weapon != null;
+    }
+
+    public void hit(){
+        Gdx.app.log("Enemy:","OUGH");
     }
 
     public void attack() {
