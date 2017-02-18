@@ -16,6 +16,7 @@ import static java.lang.Math.abs;
 public class Shell extends com.whizzpered.game.entities.Object {
 
     Entity owner;
+    Color color;
 
     public Shell(Entity owner) {
         this.owner = owner;
@@ -56,8 +57,8 @@ public class Shell extends com.whizzpered.game.entities.Object {
         ShapeRenderer sp = getStage().sr;
         sp.begin(ShapeRenderer.ShapeType.Filled);
         sp.setProjectionMatrix(getStage().cam.combined);
-        sp.setColor(Color.BLACK);
-        sp.rect(getX() - 2, getY() - 2, 5, 5);
+        sp.setColor(color);
+        sp.circle(getX() - 2, getY() - 2, 5);
         sp.end();
         b.begin();
     }

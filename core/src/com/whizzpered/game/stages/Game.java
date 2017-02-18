@@ -137,10 +137,7 @@ public class Game extends Stage {
 		 * hero.velocity * CAMERA_MOVEMENT_SHIFT; cam.update();
 		 */
 		b.setProjectionMatrix(cam.combined);
-		/** Этот говнокод временный **/
-		
 		terrain.draw(this);
-
 		b.end();
 		super.draw();
 	}
