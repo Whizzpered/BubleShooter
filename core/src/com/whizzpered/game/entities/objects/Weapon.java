@@ -20,8 +20,8 @@ public class Weapon extends com.whizzpered.game.entities.Object {
 
     @Override
     public void act(float delta) {
-        setX(owner.getX() - 25);
-        setY(owner.getY() - 25);
+        setX((float) (owner.getX()  + Math.cos(angle) * 25));
+        setY((float) (owner.getY()  + Math.sin(angle) * 25));
         angle = owner.angle;
         if (rate > 0) rate -= delta;
     }
