@@ -80,12 +80,9 @@ class Terrain(val width: Int, val height: Int) {
 			for (x in 0..width - 1)
 				if (f[x][y] < 250) {
 					tiles[x][y] = wallTile
-					print('@')
 				} else {
 					tiles[x][y] = defaultTile
-					print(' ')
 				}
-			println();
 		}
 
 

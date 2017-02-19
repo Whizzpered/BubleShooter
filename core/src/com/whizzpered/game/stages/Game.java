@@ -1,28 +1,19 @@
 package com.whizzpered.game.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whizzpered.game.MyGdxGame;
 import com.whizzpered.game.entities.Entity;
 import com.whizzpered.game.entities.creatures.Enemy;
 import com.whizzpered.game.entities.creatures.Hero;
 import com.whizzpered.game.terrain.Terrain;
-import com.whizzpered.game.terrain.Tile;
-
 import static java.lang.Math.*;
-
-import java.util.Random;
-
 import static com.badlogic.gdx.math.MathUtils.*;
 
 /**
@@ -108,11 +99,11 @@ public class Game extends Stage {
 		if (input.getKeyboard().isKeyDown(Key.SPACE)) {
 			hero.attack();
 		}
-		/*
-		if (input.getKeyboard().tapDown()) {
+
+		if(input.getMouse().isPressed()){
 			hero.attack();
 		}
-		*/
+
 	}
 
 	public void handleMouse() {
@@ -141,10 +132,7 @@ public class Game extends Stage {
 		 * hero.velocity * CAMERA_MOVEMENT_SHIFT; cam.update();
 		 */
 		b.setProjectionMatrix(cam.combined);
-		/** Этот говнокод временный **/
-		
 		terrain.draw(this);
-
 		b.end();
 		super.draw();
 	}
