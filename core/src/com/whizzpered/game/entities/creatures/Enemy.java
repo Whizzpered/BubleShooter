@@ -13,7 +13,7 @@ import static java.lang.Math.abs;
  */
 public class Enemy extends Creature {
 
-    private Shell[] healths = new Shell[16];
+    public Shell[] healths = new Shell[16];
 
     public void add(Shell shell) {
         for (int i = 0; i < healths.length; i++) {

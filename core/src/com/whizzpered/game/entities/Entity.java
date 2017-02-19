@@ -16,7 +16,7 @@ import static java.lang.Math.abs;
 
 public class Entity extends Actor {
 
-    public float velocity = 0f, max_velocity = 5f, acceleration = 0f, angle = 0f;
+	public float velocity = 0f, max_velocity = 5f, acceleration = 0f, angle = 0f, size = 0f;
     protected Random r = new Random();
 	public enum Dimension {
 		X, Y, ALL
@@ -32,12 +32,16 @@ public class Entity extends Actor {
     }
 
     public boolean isCollideArc(Entity en){
-        if(Math.abs(getX()-en.getX()) < getWidth()/2+en.getWidth()/2 &
+        if(Math.abs(getX()-en.getX()) < getWidth()/2+en.getWidth()/2 &&
                 Math.abs(getY()-en.getY()) < getHeight()/2+en.getHeight()/2) {
             return true;
         }
         return false;
     }
+
+	public void initialize() {
+
+	}
 
     @Override
     public Game getStage () {
