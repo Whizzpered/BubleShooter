@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.whizzpered.game.entities.Creature;
 
+import java.util.Random;
+
 /**
  * Created by Whizzpered on 18.02.2017.
  */
@@ -13,9 +15,11 @@ public class Weapon extends com.whizzpered.game.entities.Object {
 
     Creature owner;
     private float rate = 0f, delay = 0.5f;
+    Color currentColor;
 
     public Weapon(Creature handler) {
         owner = handler;
+        currentColor = colors[r.nextInt(6)];
     }
 
     @Override
@@ -29,7 +33,10 @@ public class Weapon extends com.whizzpered.game.entities.Object {
     public void shoot() {
         if (rate <= 0) {
             rate = delay;
-            getStage().addActor(new Shell(this));
+            Shell s = new Shell(this);
+            s.color = currentColor;
+            getStage().addActor(s);
+            currentColor = colors[r.nextInt(6)];
         }
     }
 
@@ -41,6 +48,8 @@ public class Weapon extends com.whizzpered.game.entities.Object {
         sp.setProjectionMatrix(getStage().cam.combined);
         sp.setColor(Color.BLACK);
         sp.rect(getX() - 5, getY() - 10, 10, 20);
+        sp.setColor(currentColor);
+        sp.rect(getX() - 2, getY() - 15, 5, 5);
         sp.end();
         b.begin();
     }

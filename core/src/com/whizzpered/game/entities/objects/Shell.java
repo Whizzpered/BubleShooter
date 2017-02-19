@@ -14,17 +14,21 @@ import com.whizzpered.game.entities.creatures.Enemy;
 public class Shell extends com.whizzpered.game.entities.Object {
 
     Entity owner;
-    Color color = Color.BLACK;
+    Color color = Color.WHITE;
 
     public Shell(Entity owner) {
         this.owner = owner;
     }
 
+    public void setColor() {
+        color = colors[r.nextInt(6)];
+    }
+
     public void hit(Shell shell) {
-        if (shell.owner instanceof Enemy) {
+        if (owner == null & shell.owner != null) {
             owner = shell.owner;
             velocity = 0f;
-            ((Enemy)owner).hit(this);
+            ((Enemy) owner).hit(this);
         }
     }
 
@@ -33,6 +37,7 @@ public class Shell extends com.whizzpered.game.entities.Object {
         setX(owner.getX());
         setY(owner.getY());
         setWidth(20);
+        setHeight(20);
         angle = owner.angle;
         if (!(owner instanceof Enemy)) {
             max_velocity = 10f;
@@ -46,19 +51,15 @@ public class Shell extends com.whizzpered.game.entities.Object {
         super.act(delta);
         lifeTime -= delta;
         if (lifeTime <= 0 & owner == null) die();
-        if (owner == null) {
-            for (Actor a : getStage().getActors()) {
-                if (a instanceof Shell & a != this) {
-                    Shell en = (Shell) a;
-                    float dist = (float) Math.sqrt(Math.pow(getX() - en.getX(), 2) +
-                            Math.pow(getY() - en.getY(), 2));
-                    if (dist <= en.getWidth()) {
-                        hit(en);
-
-                    }
+        for (Actor a : getStage().getActors()) {
+            if (a instanceof Shell & a != this) {
+                Shell en = (Shell) a;
+                if (isCollideCircle(en)) {
+                    hit(en);
                 }
             }
         }
+
     }
 
     @Override
@@ -68,6 +69,11 @@ public class Shell extends com.whizzpered.game.entities.Object {
         sp.begin(ShapeRenderer.ShapeType.Filled);
         sp.setProjectionMatrix(getStage().cam.combined);
         sp.setColor(color);
+        sp.circle(getX() - 5, getY() - 5, 10);
+        sp.end();
+        sp.begin(ShapeRenderer.ShapeType.Line);
+        sp.setProjectionMatrix(getStage().cam.combined);
+        sp.setColor(Color.BLACK);
         sp.circle(getX() - 5, getY() - 5, 10);
         sp.end();
         b.begin();
