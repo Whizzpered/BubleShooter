@@ -23,15 +23,15 @@ import com.whizzpered.game.stages.*;
 class Terrain(val width: Int, val height: Int) {
 
 	private val tiles: Array<Array<Tile>> = Array(width) { Array(height) { defaultTile } }
-	val defaultTile = Tile(Color(1f, 1f, 1f, 1f))
-	val wallTile = Tile(Color(.5f, .5f, .5f, 1f))
+	val defaultTile = Tile(passable = true, color = Color(1f, 1f, 1f, 1f))
+	val wallTile = Tile(passable = false, color = Color(.5f, .5f, .5f, 1f))
 
 	init {
 		val r = Random();
 		var f = Array(width) { Array(height) { r.nextInt(500) } }
 		var t = Array(width) { Array(height) { r.nextInt(500) } }
-		var cx = 0;
-		var cy = 0;
+		var cx = width / 2;
+		var cy = height / 2;
 		var dir = 0
 		for (i in 0..500) {
 			if (r.nextInt(5) == 0)
@@ -43,12 +43,28 @@ class Terrain(val width: Int, val height: Int) {
 				3 -> cy--
 			}
 			cx = correct(cx, width); cy = correct(cy, height)
-			f[cx][cy] = 500
+			f[cx][cy] = 500 + r.nextInt(1000);
 		}
 
+		for (x in 0..width - 1)
+			for (i in 0..0) {
+				f[x][i] = -r.nextInt(500)
+				f[x][height - 1 - i] = -r.nextInt(500)
+			}
+
+		for (y in 0..height - 1)
+			for (i in 0..0) {
+				f[i][y] = -r.nextInt(500)
+				f[width - 1 - i][y] = -r.nextInt(500)
+			}
+
 		for (i in 0..3) {
-			for (x in 0..width-1)
-				for (y in 0..height-1) {
+			for (x in 0..width - 1)
+				for (y in 0..height - 1)
+					if (r.nextInt(5) == 0)
+						f[x][y] = r.nextInt(500);
+			for (x in 0..width - 1)
+				for (y in 0..height - 1) {
 					var s = 0;
 					for (dx in -1..1)
 						for (dy in -1..1)
@@ -60,16 +76,16 @@ class Terrain(val width: Int, val height: Int) {
 			t = v
 		}
 
-		for (x in 0..width-1) {
-			for (y in 0..height-1)
+		for (y in 0..height - 1) {
+			for (x in 0..width - 1)
 				if (f[x][y] < 250) {
 					tiles[x][y] = wallTile
 				} else {
 					tiles[x][y] = defaultTile
 				}
 		}
-		
-		
+
+
 	}
 
 	private fun correct(x: Int, w: Int): Int {
@@ -81,6 +97,14 @@ class Terrain(val width: Int, val height: Int) {
 		return cx;
 	}
 
+	operator fun get(x: Int, y: Int): Tile {
+		return tiles[correct(x, width)][correct(y, height)];
+	}
+
+	operator fun set(x: Int, y: Int, v: Tile) {
+		tiles[correct(x, width)][correct(y, height)] = v;
+	}
+
 	fun draw(game: Game) {
 
 
@@ -90,7 +114,7 @@ class Terrain(val width: Int, val height: Int) {
 			for (y in 0..height-1)
 				tiles[x][y].draw(x, y, game);
 			*/
-		
+
 		for (x in ((-Gdx.graphics.width / 2.0 + game.cam.position.x) / defaultTile.size - 3).toInt()..
 				((Gdx.graphics.width / 2.0 + game.cam.position.x) / defaultTile.size + 3).toInt())
 
@@ -98,7 +122,7 @@ class Terrain(val width: Int, val height: Int) {
 					((Gdx.graphics.height / 2.0 + game.cam.position.y) / defaultTile.size + 3).toInt())
 
 				tiles[correct(x, width)][correct(y, height)].draw(x, y, game)
- 
+
 
 		/*
         for (x in (-(Gdx.graphics.width / 2.0) + (game.cam.position.x)) / defaultTile.size).toInt() ..
@@ -115,5 +139,11 @@ class Terrain(val width: Int, val height: Int) {
          */
 		/** Именъно такъ **/
 		game.sr.end();
+	}
+
+	fun tileAt(x: Float, y: Float): Tile {
+		val nx = ((x + defaultTile.size / 2) / defaultTile.size).toInt()
+		val ny = ((y + defaultTile.size / 2) / defaultTile.size).toInt()
+		return tiles[correct(nx, width)][correct(ny, height)];
 	}
 }

@@ -34,18 +34,6 @@ public class Enemy extends Creature {
     }
 
     public Enemy() {
-
-    }
-
-    @Override
-    public void initialize() {
-        setX(150);
-        setY(150);
-        setWidth(50);
-        setHeight(50);
-        Shell s = new Shell(this);
-        getStage().addActor(s);
-        add(s);
     }
 
     @Override

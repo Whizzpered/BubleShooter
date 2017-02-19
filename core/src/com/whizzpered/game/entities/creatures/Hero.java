@@ -15,8 +15,6 @@ public class Hero extends Creature {
 
 	@Override
 	public void initialize() {
-		setX(100);
-		setY(100);
 		weapon = new Weapon(this);
 		getStage().addActor(weapon);
 	}
