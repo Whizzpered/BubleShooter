@@ -18,6 +18,7 @@ public class Weapon extends com.whizzpered.game.entities.Object {
     Color currentColor;
 
     public Weapon(Creature handler) {
+    	super(handler.getX(), handler.getY());
         owner = handler;
         currentColor = colors[r.nextInt(6)];
     }
@@ -46,10 +47,8 @@ public class Weapon extends com.whizzpered.game.entities.Object {
         ShapeRenderer sp = getStage().sr;
         sp.begin(ShapeRenderer.ShapeType.Filled);
         sp.setProjectionMatrix(getStage().cam.combined);
-        sp.setColor(Color.BLACK);
-        sp.rect(getX() - 5, getY() - 10, 10, 20);
         sp.setColor(currentColor);
-        sp.rect(getX() - 2, getY() - 15, 5, 5);
+        sp.rect(getX() - 5, getY() - 10, 10, 20);
         sp.end();
         b.begin();
     }

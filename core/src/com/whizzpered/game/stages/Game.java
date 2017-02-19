@@ -14,6 +14,9 @@ import com.whizzpered.game.entities.creatures.Enemy;
 import com.whizzpered.game.entities.creatures.Hero;
 import com.whizzpered.game.terrain.Terrain;
 import static java.lang.Math.*;
+
+import java.util.Random;
+
 import static com.badlogic.gdx.math.MathUtils.*;
 
 /**
@@ -24,6 +27,7 @@ public class Game extends Stage {
 
 	public Hero hero;
 	public Enemy enemy;
+	public static final Random r = new Random();
 	public Input input;
 	public Terrain terrain = new Terrain(64, 64);
 	public OrthographicCamera cam;
@@ -69,12 +73,8 @@ public class Game extends Stage {
 	}
 
 	public void initCreatures() {
-		hero = new Hero();
-		hero.setX(getWidth() / 2);
-		hero.setY(getHeight() / 2);
-		enemy = new Enemy();
-		hero.setX(getWidth() / 2 - 300);
-		hero.setY(getHeight() / 2);
+		hero = new Hero(getWidth() / 2, getHeight() / 2);
+		enemy = new Enemy(getWidth() / 2 - 300, getHeight() / 2);
 		addActor(enemy);
 		addActor(hero);
 	}
