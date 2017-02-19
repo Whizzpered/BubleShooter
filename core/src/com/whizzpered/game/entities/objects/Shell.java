@@ -4,6 +4,7 @@ package com.whizzpered.game.entities.objects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.whizzpered.game.entities.Entity;
 import com.whizzpered.game.entities.creatures.Enemy;
@@ -14,7 +15,7 @@ import static java.lang.Math.abs;
  * Created by Whizzpered on 18.02.2017.
  */
 public class Shell extends com.whizzpered.game.entities.Object {
-
+	
     Entity owner;
 
     public Shell(Entity owner) {
@@ -28,6 +29,16 @@ public class Shell extends com.whizzpered.game.entities.Object {
         setY(owner.getY());
         angle = owner.angle;
         velocity = max_velocity;
+    }
+    
+    @Override
+    protected void collideWall(Dimension d) {
+    	if (d == Dimension.X)
+    		angle = (float) Math.asin(-Math.sin(angle));
+    	else if (d == Dimension.Y)
+    		angle = -angle + MathUtils.PI;
+    	else 
+    		angle += Math.PI;
     }
 
     @Override

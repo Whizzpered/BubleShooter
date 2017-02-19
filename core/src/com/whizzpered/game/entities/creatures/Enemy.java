@@ -13,10 +13,6 @@ import static java.lang.Math.abs;
 public class Enemy extends Creature {
 
     public Enemy() {
-        setX(150);
-        setY(150);
-        setWidth(50);
-        setHeight(50);
     }
 
     @Override
