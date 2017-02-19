@@ -15,6 +15,10 @@ public class Enemy extends Creature {
 
     public Shell[] healths = new Shell[16];
 
+    public Enemy(float x, float y) {
+        super(x, y);
+    }
+
     public void add(Shell shell) {
         for (int i = 0; i < healths.length; i++) {
             if (healths[i] == null) {
@@ -34,14 +38,8 @@ public class Enemy extends Creature {
         }
     }
 
-    public Enemy() {
-
-    }
-
     @Override
     public void initialize() {
-        setX(150);
-        setY(150);
         setWidth(50);
         setHeight(50);
         Shell s = new Shell(this);

@@ -13,10 +13,12 @@ import static com.badlogic.gdx.math.MathUtils.*;
  */
 public class Hero extends Creature {
 
+    public Hero(float x, float y) {
+        super(x, y);
+    }
+
     @Override
     public void initialize() {
-        setX(100);
-        setY(100);
         setWidth(50);
         setHeight(50);
         weapon = new Weapon(this);

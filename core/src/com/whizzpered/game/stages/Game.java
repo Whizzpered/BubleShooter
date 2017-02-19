@@ -69,10 +69,10 @@ public class Game extends Stage {
 	}
 
 	public void initCreatures() {
-		hero = new Hero();
+		hero = new Hero(100,100);
 		hero.setX(getWidth() / 2);
 		hero.setY(getHeight() / 2);
-		enemy = new Enemy();
+		enemy = new Enemy(200,200);
 		hero.setX(getWidth() / 2 - 300);
 		hero.setY(getHeight() / 2);
 		addActor(enemy);
