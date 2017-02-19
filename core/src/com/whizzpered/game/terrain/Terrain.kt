@@ -61,7 +61,7 @@ class Terrain(val width: Int, val height: Int) {
 		for (i in 0..3) {
 			for (x in 0..width - 1)
 				for (y in 0..height - 1)
-					if (r.nextInt(5) == 0)
+					if (r.nextInt(3) == 0)
 						f[x][y] = r.nextInt(500);
 			for (x in 0..width - 1)
 				for (y in 0..height - 1) {
