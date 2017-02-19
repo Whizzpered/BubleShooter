@@ -18,7 +18,7 @@ public class Weapon extends com.whizzpered.game.entities.Object {
     Color currentColor;
 
     public Weapon(Creature handler) {
-        super(handler.getX(), handler.getY());
+    	super(handler.getX(), handler.getY());
         owner = handler;
         currentColor = colors[r.nextInt(6)];
     }
