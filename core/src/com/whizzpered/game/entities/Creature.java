@@ -12,6 +12,10 @@ public class Creature extends Entity {
 
     protected Weapon weapon;
 
+    public Creature(float x, float y) {
+        super(x, y);
+    }
+
     public boolean hasWeapon() {
         return weapon != null;
     }

@@ -13,7 +13,7 @@ import static java.lang.Math.abs;
  */
 public class Enemy extends Creature {
 
-    private Shell[] healths = new Shell[16];
+    public Shell[] healths = new Shell[16];
 
     public void add(Shell shell) {
         for (int i = 0; i < healths.length; i++) {
@@ -27,6 +27,7 @@ public class Enemy extends Creature {
     public void delete(Shell shell) {
         for (int i = 0; i < healths.length; i++) {
             if (healths[i] == shell) {
+                getStage().getActors().removeValue(healths[i], false);
                 healths[i] = null;
                 break;
             }
@@ -34,6 +35,19 @@ public class Enemy extends Creature {
     }
 
     public Enemy() {
+
+    }
+
+    @Override
+    public void initialize() {
+        setX(150);
+        setY(150);
+        setWidth(50);
+        setHeight(50);
+        Shell s = new Shell(this);
+        s.setColor();
+        getStage().addActor(s);
+        add(s);
     }
 
     @Override
@@ -61,6 +75,7 @@ public class Enemy extends Creature {
     @Override
     public void hit(Shell shell) {
         add(shell);
+
     }
 
     @Override
@@ -69,7 +84,12 @@ public class Enemy extends Creature {
         ShapeRenderer sp = getStage().sr;
         sp.begin(ShapeRenderer.ShapeType.Filled);
         sp.setProjectionMatrix(getStage().cam.combined);
-        sp.setColor(Color.GREEN);
+        sp.setColor(Color.WHITE);
+        sp.rect(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
+        sp.end();
+        sp.begin(ShapeRenderer.ShapeType.Line);
+        sp.setProjectionMatrix(getStage().cam.combined);
+        sp.setColor(Color.BLACK);
         sp.rect(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
         sp.end();
         b.begin();
