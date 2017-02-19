@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.whizzpered.game.entities.Creature;
+import com.whizzpered.game.entities.objects.Shell;
 
 import static java.lang.Math.abs;
 
@@ -12,11 +13,39 @@ import static java.lang.Math.abs;
  */
 public class Enemy extends Creature {
 
+    private Shell[] healths = new Shell[16];
+
+    public void add(Shell shell) {
+        for (int i = 0; i < healths.length; i++) {
+            if (healths[i] == null) {
+                healths[i] = shell;
+                break;
+            }
+        }
+    }
+
+    public void delete(Shell shell) {
+        for (int i = 0; i < healths.length; i++) {
+            if (healths[i] == shell) {
+                healths[i] = null;
+                break;
+            }
+        }
+    }
+
     public Enemy() {
+
+    }
+
+    @Override
+    public void initialize() {
         setX(150);
         setY(150);
         setWidth(50);
         setHeight(50);
+        Shell s = new Shell(this);
+        getStage().addActor(s);
+        add(s);
     }
 
     @Override
@@ -33,6 +62,17 @@ public class Enemy extends Creature {
         else {
             velocity = acceleration = 0;
         }
+        for (Shell sh : healths) {
+            if (sh != null) {
+                sh.velocity = velocity;
+                sh.angle = angle;
+            }
+        }
+    }
+
+    @Override
+    public void hit(Shell shell) {
+        add(shell);
     }
 
     @Override
@@ -42,7 +82,7 @@ public class Enemy extends Creature {
         sp.begin(ShapeRenderer.ShapeType.Filled);
         sp.setProjectionMatrix(getStage().cam.combined);
         sp.setColor(Color.GREEN);
-        sp.rect(getX() - 25, getY() - 25, 50, 50);
+        sp.rect(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
         sp.end();
         b.begin();
     }
