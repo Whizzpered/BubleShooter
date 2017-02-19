@@ -1,8 +1,10 @@
 package com.whizzpered.game.entities;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whizzpered.game.stages.Game;
+import com.whizzpered.game.terrain.*;
 
 import java.util.Random;
 
@@ -16,6 +18,9 @@ public class Entity extends Actor {
 
     public float velocity = 0f, max_velocity = 5f, acceleration = 0f, angle = 0f;
     protected Random r = new Random();
+	public enum Dimension {
+		X, Y, ALL
+	}
 
     public boolean isCollideCircle(Entity en) {
         float dist = (float) Math.sqrt(Math.pow(getX() - en.getX(), 2) +
@@ -34,51 +39,63 @@ public class Entity extends Actor {
         return false;
     }
 
-    public void initialize() {
-
-    }
-
     @Override
-    public Game getStage() {
-        return (Game) (super.getStage());
+    public Game getStage () {
+        return (Game)(super.getStage());
     }
 
-    @Override
-    public void act(float delta) {
-        if (abs(velocity + acceleration) <= max_velocity)
-            velocity += acceleration;
-        else velocity = max_velocity * Float.compare(velocity, 0);
-        setX(getX() + velocity * (float) Math.cos(angle));
-        setY(getY() + velocity * (float) Math.sin(angle));
-    }
+	@Override
+	public void act(float delta) {
+		if (abs(velocity + acceleration) <= max_velocity)
+			velocity += acceleration;
+		else
+			velocity = max_velocity * Float.compare(velocity, 0);
 
-    public Entity() {
+		final float nx = getX() + velocity * MathUtils.cos(angle);
+		final float ny = getY() + velocity * MathUtils.sin(angle);
+		final Terrain t = getStage().terrain;
+		if (t.tileAt(nx + MathUtils.cos(angle) * size, ny + MathUtils.sin(angle) * size).getPassable()) {
+			setX(nx);
+			setY(ny);
+		} else {
+			if (t.tileAt(nx + MathUtils.cos(angle) * size, getY()).getPassable()) {
+				setX(nx);
+				collideWall(Dimension.X);
+			} else if (t.tileAt(getX(), ny + MathUtils.sin(angle) * size).getPassable()) {
+				setY(ny);
+				collideWall(Dimension.Y);
+			} else
+				collideWall(Dimension.ALL);
+		}
+	}
 
-    }
+	protected void collideWall(Dimension d) {
 
-    @Override
-    public void setX(float x) {
-        final Game game = getStage();
-        if (game != null) {
-            while (x < game.getWidth())
-                x += game.getWidth();
-            while (x >= game.getWidth())
-                x -= game.getWidth();
-        }
-        super.setX(x);
-    }
+	}
 
-    @Override
-    public void setY(float y) {
-        final Game game = getStage();
-        if (game != null) {
-            while (y < game.getHeight())
-                y += game.getHeight();
-            while (y >= game.getHeight())
-                y -= game.getHeight();
-        }
-        super.setY(y);
-    }
+	@Override
+	public void setX(float x) {
+		final Game game = getStage();
+		if (game != null) {
+			while(x < game.getWidth())
+				x += game.getWidth();
+			while(x >= game.getWidth())
+				x -= game.getWidth();
+		}
+		super.setX(x);
+	}
+
+	@Override
+	public void setY(float y) {
+		final Game game = getStage();
+		if (game != null) {
+			while(y < game.getHeight())
+				y += game.getHeight();
+			while(y >= game.getHeight())
+				y -= game.getHeight();
+		}
+		super.setY(y);
+	}
 
     public Entity(float x, float y) {
         setX(x);
