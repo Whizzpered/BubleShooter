@@ -20,6 +20,8 @@ public class Hero extends Creature {
 	@Override
     public void initialize() {
         weapon = new Weapon(this);
+        max_acceleration = 5;
+        max_deceleration = 15;
         getStage().addActor(weapon);
     }
 

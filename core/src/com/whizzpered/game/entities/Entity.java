@@ -16,37 +16,38 @@ import static java.lang.Math.abs;
 
 public class Entity extends Actor {
 
-	public float velocity = 0f, max_velocity = 5f, acceleration = 0f, angle = 0f, size = 0f;
-    protected Random r = new Random();
+	public float velocity = 0f, max_velocity = 5f, acceleration = 0f, max_acceleration, max_deceleration, angle = 0f,
+			hor_velocity, hor_acceleration, size = 0f;
+	protected Random r = new Random();
+
 	public enum Dimension {
 		X, Y, ALL
 	}
 
-    public boolean isCollideCircle(Entity en) {
-        float dist = (float) Math.sqrt(Math.pow(getX() - en.getX(), 2) +
-                Math.pow(getY() - en.getY(), 2));
-        if (dist <= Math.sqrt(Math.pow(en.getWidth() / 2, 2) + Math.pow(getWidth() / 2, 2))) {
-            return true;
-        }
-        return false;
-    }
+	public boolean isCollideCircle(Entity en) {
+		float dist = (float) Math.sqrt(Math.pow(getX() - en.getX(), 2) + Math.pow(getY() - en.getY(), 2));
+		if (dist <= Math.sqrt(Math.pow(en.getWidth() / 2, 2) + Math.pow(getWidth() / 2, 2))) {
+			return true;
+		}
+		return false;
+	}
 
-    public boolean isCollideArc(Entity en){
-        if(Math.abs(getX()-en.getX()) < getWidth()/2+en.getWidth()/2 &&
-                Math.abs(getY()-en.getY()) < getHeight()/2+en.getHeight()/2) {
-            return true;
-        }
-        return false;
-    }
+	public boolean isCollideArc(Entity en) {
+		if (Math.abs(getX() - en.getX()) < getWidth() / 2 + en.getWidth() / 2
+				&& Math.abs(getY() - en.getY()) < getHeight() / 2 + en.getHeight() / 2) {
+			return true;
+		}
+		return false;
+	}
 
 	public void initialize() {
 
 	}
 
-    @Override
-    public Game getStage () {
-        return (Game)(super.getStage());
-    }
+	@Override
+	public Game getStage() {
+		return (Game) (super.getStage());
+	}
 
 	@Override
 	public void act(float delta) {
@@ -54,9 +55,14 @@ public class Entity extends Actor {
 			velocity += acceleration;
 		else
 			velocity = max_velocity * Float.compare(velocity, 0);
-
-		final float nx = getX() + velocity * MathUtils.cos(angle);
-		final float ny = getY() + velocity * MathUtils.sin(angle);
+		if (abs(hor_velocity + hor_acceleration) <= max_velocity)
+			hor_velocity += hor_acceleration;
+		else
+			hor_velocity = max_velocity * Float.compare(velocity, 0);
+		final float nx = getX() + velocity * MathUtils.cos(angle)
+				+ hor_velocity * MathUtils.cos(angle - MathUtils.PI / 2);
+		final float ny = getY() + velocity * MathUtils.sin(angle)
+				+ hor_velocity * MathUtils.sin(angle - MathUtils.PI / 2);
 		final Terrain t = getStage().terrain;
 		if (t.tileAt(nx + MathUtils.cos(angle) * size, ny + MathUtils.sin(angle) * size).getPassable()) {
 			setX(nx);
@@ -81,9 +87,9 @@ public class Entity extends Actor {
 	public void setX(float x) {
 		final Game game = getStage();
 		if (game != null) {
-			while(x < game.getWidth())
+			while (x < game.getWidth())
 				x += game.getWidth();
-			while(x >= game.getWidth())
+			while (x >= game.getWidth())
 				x -= game.getWidth();
 		}
 		super.setX(x);
@@ -93,16 +99,16 @@ public class Entity extends Actor {
 	public void setY(float y) {
 		final Game game = getStage();
 		if (game != null) {
-			while(y < game.getHeight())
+			while (y < game.getHeight())
 				y += game.getHeight();
-			while(y >= game.getHeight())
+			while (y >= game.getHeight())
 				y -= game.getHeight();
 		}
 		super.setY(y);
 	}
 
-    public Entity(float x, float y) {
-        setX(x);
-        setY(y);
-    }
+	public Entity(float x, float y) {
+		setX(x);
+		setY(y);
+	}
 }

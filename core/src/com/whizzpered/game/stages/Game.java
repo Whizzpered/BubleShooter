@@ -84,18 +84,24 @@ public class Game extends Stage {
 		super.act(delta);
 		handleMouse();
 		if (input.getKeyboard().isKeyDown(Key.W, Key.UP))
-			hero.acceleration = +delta;
+			hero.acceleration = +delta * hero.max_acceleration;
 		else if (input.getKeyboard().isKeyDown(Key.S, Key.DOWN))
-			hero.acceleration = -delta;
+			hero.acceleration = -delta * hero.max_acceleration;
 		else if (abs(hero.velocity) > delta)
-			hero.acceleration = -Float.compare(hero.velocity, 0) * delta;
+			hero.acceleration = -Float.compare(hero.velocity, 0) * delta * hero.max_deceleration;
 		else {
 			hero.velocity = hero.acceleration = 0;
 		}
 		if (input.getKeyboard().isKeyDown(Key.A, Key.LEFT))
-			hero.angle -= 5 * delta;
-		if (input.getKeyboard().isKeyDown(Key.D, Key.RIGHT))
-			hero.angle += 5 * delta;
+			hero.hor_acceleration = +delta * hero.max_acceleration;
+		else if (input.getKeyboard().isKeyDown(Key.D, Key.RIGHT))
+			hero.hor_acceleration = -delta * hero.max_acceleration;
+		else if (abs(hero.hor_velocity) > delta)
+			hero.hor_acceleration = -Float.compare(hero.hor_velocity, 0) * delta * hero.max_deceleration;
+		else {
+			hero.hor_velocity = hero.hor_acceleration = 0;
+		}
+			
 		if (input.getKeyboard().isKeyDown(Key.SPACE)) {
 			hero.attack();
 		}
