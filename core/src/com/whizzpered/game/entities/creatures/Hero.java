@@ -30,21 +30,21 @@ public class Hero extends Creature {
 
     @Override
     public void draw(Batch b, float parentalpha) {
-        b.end();
+        //b.end();
         ShapeRenderer sp = getStage().sr;
-        sp.begin(ShapeRenderer.ShapeType.Filled);
+        /*sp.begin(ShapeRenderer.ShapeType.Filled);
         sp.setProjectionMatrix(getStage().cam.combined);
         sp.setColor(Color.RED);
         sp.rect(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
         sp.setColor(Color.BLUE);
         sp.rect(getX() + cos(angle) * 25 - 2.5f, getY() + sin(angle) * 25 - 2.5f, 5, 5);
-        sp.end();
+        sp.end();*/
         sp.begin(ShapeRenderer.ShapeType.Line);
         sp.setProjectionMatrix(getStage().cam.combined);
         sp.setColor(Color.BLACK);
         sp.rect(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
         sp.end();
-        b.begin();
+        //b.begin();
         if (weapon != null) weapon.draw(b, parentalpha);
     }
 

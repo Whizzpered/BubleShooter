@@ -126,11 +126,6 @@ public class Game extends Stage {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		b.begin();
-		/*
-		 * cam.position.x = hero.getX() + cos(angle) * hero.velocity *
-		 * CAMERA_MOVEMENT_SHIFT; cam.position.y = hero.getY() + sin(angle) *
-		 * hero.velocity * CAMERA_MOVEMENT_SHIFT; cam.update();
-		 */
 		b.setProjectionMatrix(cam.combined);
 		terrain.draw(this);
 		b.end();

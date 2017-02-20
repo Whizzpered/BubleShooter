@@ -16,7 +16,6 @@ public class Enemy extends Creature {
 
 	public Enemy(float x, float y) {
 		super(x, y);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Shell[] healths = new Shell[16];
@@ -88,11 +87,11 @@ public class Enemy extends Creature {
 	public void draw(Batch b, float parentalpha) {
 		b.end();
 		ShapeRenderer sp = getStage().sr;
-		sp.begin(ShapeRenderer.ShapeType.Filled);
+		/*sp.begin(ShapeRenderer.ShapeType.Filled);
 		sp.setProjectionMatrix(getStage().cam.combined);
 		sp.setColor(Color.WHITE);
 		sp.rect(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
-		sp.end();
+		sp.end();*/
 		sp.begin(ShapeRenderer.ShapeType.Line);
 		sp.setProjectionMatrix(getStage().cam.combined);
 		sp.setColor(Color.BLACK);
