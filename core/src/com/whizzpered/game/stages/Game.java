@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whizzpered.game.MyGdxGame;
@@ -24,7 +25,11 @@ import static com.badlogic.gdx.math.MathUtils.*;
  */
 
 public class Game extends Stage {
+	public enum Control {
+		DUMB_SHIT, NORMAL
+	}
 
+	public Control control = Control.NORMAL;
 	public Hero hero;
 	public Enemy enemy;
 	public static final Random r = new Random();
@@ -83,30 +88,48 @@ public class Game extends Stage {
 	public void act(float delta) {
 		super.act(delta);
 		handleMouse();
-		if (input.getKeyboard().isKeyDown(Key.W, Key.UP))
-			hero.acceleration = +delta * hero.max_acceleration;
-		else if (input.getKeyboard().isKeyDown(Key.S, Key.DOWN))
-			hero.acceleration = -delta * hero.max_acceleration;
-		else if (abs(hero.velocity) > delta)
-			hero.acceleration = -Float.compare(hero.velocity, 0) * delta * hero.max_deceleration;
-		else {
-			hero.velocity = hero.acceleration = 0;
+		if (control == Control.DUMB_SHIT) {
+			//hero.angle = hero.weapon.angle;
+			if (input.getKeyboard().isKeyDown(Key.W, Key.UP))
+				hero.acceleration = +delta * hero.max_acceleration;
+			else if (input.getKeyboard().isKeyDown(Key.S, Key.DOWN))
+				hero.acceleration = -delta * hero.max_acceleration;
+			else if (abs(hero.velocity) > delta)
+				hero.acceleration = -Float.compare(hero.velocity, 0) * delta * hero.max_deceleration;
+			else {
+				hero.velocity = hero.acceleration = 0;
+			}
+			if (input.getKeyboard().isKeyDown(Key.A, Key.LEFT))
+				hero.hor_acceleration = +delta * hero.max_acceleration;
+			else if (input.getKeyboard().isKeyDown(Key.D, Key.RIGHT))
+				hero.hor_acceleration = -delta * hero.max_acceleration;
+			else if (abs(hero.hor_velocity) > delta)
+				hero.hor_acceleration = -Float.compare(hero.hor_velocity, 0) * delta * hero.max_deceleration;
+			else {
+				hero.hor_velocity = hero.hor_acceleration = 0;
+			}
+		} else if (control == Control.NORMAL) {
+			double x = 0, y = 0;
+			if (input.getKeyboard().isKeyDown(Key.W, Key.UP))
+				y -= 1;
+			if (input.getKeyboard().isKeyDown(Key.S, Key.DOWN))
+				y += 1;
+			if (input.getKeyboard().isKeyDown(Key.A, Key.LEFT))
+				x -= 1;
+			if (input.getKeyboard().isKeyDown(Key.D, Key.RIGHT))
+				x += 1;
+			if (x != 0 || y != 0) {
+				hero.angle = (float) Math.atan2(y, x);
+				hero.acceleration = +delta * hero.max_acceleration;
+			} else
+				hero.acceleration = -Float.compare(hero.velocity, 0) * delta * hero.max_deceleration;
 		}
-		if (input.getKeyboard().isKeyDown(Key.A, Key.LEFT))
-			hero.hor_acceleration = +delta * hero.max_acceleration;
-		else if (input.getKeyboard().isKeyDown(Key.D, Key.RIGHT))
-			hero.hor_acceleration = -delta * hero.max_acceleration;
-		else if (abs(hero.hor_velocity) > delta)
-			hero.hor_acceleration = -Float.compare(hero.hor_velocity, 0) * delta * hero.max_deceleration;
-		else {
-			hero.hor_velocity = hero.hor_acceleration = 0;
-		}
-			
+
 		if (input.getKeyboard().isKeyDown(Key.SPACE)) {
 			hero.attack();
 		}
 
-		if(input.getMouse().isPressed()){
+		if (input.getMouse().isPressed()) {
 			hero.attack();
 		}
 
@@ -122,7 +145,7 @@ public class Game extends Stage {
 				/ (float) Math.sqrt(Math.pow(sx, 2) + Math.pow(sy, 2)) * 5f;
 		cam.position.x = hero.getX() + cos(angle) * delta * CAMERA_MOVEMENT_SHIFT;
 		cam.position.y = hero.getY() + sin(angle) * delta * CAMERA_MOVEMENT_SHIFT;
-		hero.angle = angle;
+		hero.weapon.angle = angle;
 		cam.update();
 	}
 

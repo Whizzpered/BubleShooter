@@ -10,7 +10,7 @@ import com.whizzpered.game.entities.objects.Weapon;
 
 public class Creature extends Entity {
 
-    protected Weapon weapon;
+    public Weapon weapon;
 
     public Creature(float x, float y) {
         super(x, y);
