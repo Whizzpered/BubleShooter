@@ -2,6 +2,7 @@ package com.whizzpered.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.utils.texturepacker.*;
 import com.whizzpered.game.MyGdxGame;
 
 public class DesktopLauncher {

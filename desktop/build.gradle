@@ -5,6 +5,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "com.whizzpered.game.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
+project.ext.texturePacker = ["../toAtlas", "../android/assets", "sprites"]
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
@@ -12,6 +13,13 @@ task run(dependsOn: classes, type: JavaExec) {
     standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
+}
+
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+task pack(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'my.package.test.desktop.PackerTest'
+    args = ['../toAtlas', '../android/', 'my.atlas']
 }
 
 task dist(type: Jar) {
